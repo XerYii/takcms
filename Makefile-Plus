@@ -1,7 +1,7 @@
 obj-m := tcp_plus.o
 
 all:
-	make -C /lib/modules/`uname -r`/build M=`pwd` modules CC=/usr/bin/gcc
+	make -C /lib/modules/`uname -r`/build M=`pwd` modules
 
 clean:
 	make -C /lib/modules/`uname -r`/build M=`pwd` clean
