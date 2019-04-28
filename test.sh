@@ -133,8 +133,8 @@ maker(){
 }
 
 compile(){
-	wget https://raw.githubusercontent.com/XerYii/takcms/master/tcp_nanqinlang.c
-	wget -O Makefile https://raw.githubusercontent.com/tcp-nanqinlang/general/master/Makefile/Makefile-CentOS
+	wget https://raw.githubusercontent.com/XerYii/takcms/master/tcp_test.c
+	wget -O Makefile https://raw.githubusercontent.com/XerYii/takcms/master/Makefile-test
 	make && make install
 }
 
