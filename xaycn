@@ -7,9 +7,8 @@ clean:
 	make -C /lib/modules/`uname -r`/build M=`pwd` clean
 
 install:
-	install xaycn.ko /lib/modules/`uname -r`/kernel/net/ipv4
-	insmod /lib/modules/`uname -r`/kernel/net/ipv4/xaycn.ko
-	depmod -a
+	modules_install xaycn.ko /lib/modules/`uname -r`/kernel/net/ipv4
+	modprobe xaycn
 
 uninstall:
 	rm /lib/modules/`uname -r`/kernel/net/ipv4/xaycn.ko
