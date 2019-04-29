@@ -1,13 +1,13 @@
 obj-m := xaycn.o
 
 all:
-	make -C /lib/modules/`uname -r`/build M=`pwd` modules CC=/usr/bin/gcc
+	make -C /lib/modules/`uname -r`/build M=`pwd` modules
 
 clean:
 	make -C /lib/modules/`uname -r`/build M=`pwd` clean
 
 install:
-	modules_install xaycn.ko /lib/modules/`uname -r`/kernel/net/ipv4
+	make INSTALL_MOD_PATH=/lib/modules/`uname -r`/kernel/net/ipv4  modules_install
 	modprobe xaycn
 
 uninstall:
