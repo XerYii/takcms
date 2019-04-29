@@ -205,9 +205,9 @@ static const u32 bbr_extra_acked_max_us = 100 * 1000;
 /* Each cycle, try to hold sub-unity gain until inflight <= BDP. */
 static const bool bbr_drain_to_target = true;   /* default: enabled */
 
-// extern bool tcp_snd_wnd_test(const struct tcp_sock *tp,
-                 // const struct sk_buff *skb,
-                 // unsigned int cur_mss);
+extern bool tcp_snd_wnd_test(const struct tcp_sock *tp,
+                 const struct sk_buff *skb,
+                 unsigned int cur_mss);
 
 /* Do we estimate that STARTUP filled the pipe? */
 static bool bbr_full_bw_reached(const struct sock *sk)
@@ -274,8 +274,8 @@ static void bbr_drain_to_target_cycling(struct sock *sk,
             (inflight >= bbr_inflight(sk, bw, bbr->pacing_gain) ||
             rs->losses ||         /* perhaps pacing_gain*BDP won't fit */
             rs->is_app_limited || /* previously app-limited */
-            !tcp_send_head(sk) //|| /* currently app/rwin-limited */
-            /* !tcp_snd_wnd_test(tp, tcp_send_head(sk), tp->mss_cache) */)) {
+            !tcp_send_head(sk) || /* currently app/rwin-limited */
+            !tcp_snd_wnd_test(tp, tcp_send_head(sk), tp->mss_cache))) {
             bbr_set_cycle_idx(sk, BBR_BW_PROBE_DOWN);  /* drain queue */
             return;
     }
@@ -1136,7 +1136,7 @@ static void bbr_set_state(struct sock *sk, u8 new_state)
 
 static struct tcp_congestion_ops tcp_bbr_cong_ops __read_mostly = {
     .flags      = TCP_CONG_NON_RESTRICTED,
-    .name       = "bbrplus",
+    .name       = "plus",
     .owner      = THIS_MODULE,
     .init       = bbr_init,
     .cong_control   = bbr_main,
@@ -1151,7 +1151,7 @@ static struct tcp_congestion_ops tcp_bbr_cong_ops __read_mostly = {
 
 static int __init bbr_register(void)
 {
-    //BUILD_BUG_ON(sizeof(struct bbr) > ICSK_CA_PRIV_SIZE);
+    BUILD_BUG_ON(sizeof(struct bbr) > ICSK_CA_PRIV_SIZE);
     return tcp_register_congestion_control(&tcp_bbr_cong_ops);
 }
 
