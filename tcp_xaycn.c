@@ -98,7 +98,7 @@ struct bbr {
 		round_start:1,	     /* start of packet-timed tx->ack round? */
 		idle_restart:1,	     /* restarting after idle? */
 		probe_rtt_round_done:1,  /* a BBR_PROBE_RTT round at 4 pkts? */
-		unused:5,
+		unused:13,
 		lt_is_sampling:1,    /* taking long-term ("LT") samples now? */
 		lt_rtt_cnt:7,	     /* round trips in long-term interval */
 		lt_use_bw:1;	     /* use lt_bw as our bw estimate? */
@@ -109,7 +109,7 @@ struct bbr {
 	u32	pacing_gain:10,	/* current gain for setting pacing rate */
 		cwnd_gain:10,	/* current gain for setting cwnd */
 		full_bw_reached:1,   /* reached full bw in Startup? */
-		full_bw_cnt:3,	/* number of rounds without large bw gains */
+		full_bw_cnt:2,	/* number of rounds without large bw gains */
 		cycle_idx:3,	/* current index in pacing_gain cycle array */
 		has_seen_rtt:1, /* have we seen an RTT sample yet? */
 		unused_b:5;
