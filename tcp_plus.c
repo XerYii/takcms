@@ -111,7 +111,7 @@ struct bbr {
     u32 lt_last_lost;        /* LT intvl start: tp->lost */
     u32 pacing_gain:10, /* current gain for setting pacing rate */
         cwnd_gain:10,   /* current gain for setting cwnd */
-        full_bw_cnt:3,  /* number of rounds without large bw gains */
+        full_bw_cnt:2,  /* number of rounds without large bw gains */
         cycle_idx:3,    /* current index in pacing_gain cycle array */
         has_seen_rtt:1, /* have we seen an RTT sample yet? */
         unused_b:5;
